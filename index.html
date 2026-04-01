@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Love Notes for Jennifer Rubin</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 45%, #fecdd3 100%);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 760px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #fbcfe8;
+      border-radius: 28px;
+      box-shadow: 0 20px 60px rgba(190, 24, 93, 0.15);
+      padding: 32px;
+      text-align: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .pill {
+      display: inline-block;
+      background: #ffe4e6;
+      color: #be185d;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(32px, 5vw, 52px);
+      color: #9f1239;
+      line-height: 1.08;
+    }
+
+    .subtext {
+      margin: 0 0 28px;
+      font-size: 18px;
+      color: #be185d;
+    }
+
+    .message-box {
+      min-height: 210px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #fff7fb 0%, #fff1f2 100%);
+      border: 1px solid #fbcfe8;
+      box-shadow: inset 0 2px 14px rgba(190, 24, 93, 0.06);
+    }
+
+    .message {
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.45;
+      color: #334155;
+      font-weight: 600;
+      max-width: 580px;
+      margin: 0;
+    }
+
+    .button {
+      margin-top: 28px;
+      border: none;
+      border-radius: 18px;
+      background: #e11d48;
+      color: white;
+      padding: 16px 28px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 12px 28px rgba(225, 29, 72, 0.25);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 34px rgba(225, 29, 72, 0.28);
+      background: #be123c;
+    }
+
+    .button:active {
+      transform: scale(0.98);
+    }
+
+    .count {
+      margin-top: 16px;
+      color: #be185d;
+      font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 22px;
+        border-radius: 22px;
+      }
+
+      .message-box {
+        min-height: 180px;
+        padding: 24px 18px;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="pill">💌 For Jennifer Rubin</div>
+    <h1>A Little Love Note</h1>
+    <p class="subtext">Click the button for a new sweet message.</p>
+
+    <div class="message-box">
+      <p class="message" id="message"></p>
+    </div>
+
+    <button class="button" id="newMessageBtn">Show Me Another ❤️</button>
+    <div class="count" id="count">Love notes opened: 0</div>
+  </div>
+
+  <script>
+    const messages = [
+      "Jennifer Rubin, every day with you feels like my favorite kind of magic.",
+      "Jennifer, your smile still makes my whole world feel lighter.",
+      "No matter how busy life gets, my heart always finds its way back to you, Jennifer.",
+      "Jennifer Rubin, you are my calm, my joy, and my best part of every day.",
+      "Every click is just another small reminder that I love you more than words can hold.",
+      "Jennifer, loving you is the easiest and best thing I have ever done.",
+      "You make ordinary moments feel unforgettable, Jennifer Rubin.",
+      "Jennifer, you are my favorite hello and my sweetest goodnight.",
+      "I still get excited knowing I get to do life with you.",
+      "Jennifer Rubin, your heart makes everything around you more beautiful.",
+      "You are the love story I never want to stop reading.",
+      "Jennifer, even on simple days, loving you feels extraordinary.",
+      "My favorite place has never been a place at all — it is beside you.",
+      "Jennifer Rubin, you are the reason my heart feels so full.",
+      "If I could choose all over again, I would still choose you in a heartbeat.",
+      "Jennifer, you make love feel warm, safe, and endlessly sweet.",
+      "You are my sunshine in the quiet moments and my peace in the loud ones.",
+      "Jennifer Rubin, thank you for being the heart of our little world.",
+      "Every time I look at you, I find one more reason to be grateful.",
+      "Jennifer, my love for you grows in all the little moments too."
+    ];
+
+    const messageEl = document.getElementById("message");
+    const countEl = document.getElementById("count");
+    const buttonEl = document.getElementById("newMessageBtn");
+
+    let currentIndex = -1;
+    let clickCount = 0;
+
+    function getRandomMessage() {
+      if (messages.length === 1) {
+        currentIndex = 0;
+        return messages[0];
+      }
+
+      let nextIndex;
+      do {
+        nextIndex = Math.floor(Math.random() * messages.length);
+      } while (nextIndex === currentIndex);
+
+      currentIndex = nextIndex;
+      return messages[nextIndex];
+    }
+
+    function showNewMessage() {
+      messageEl.textContent = getRandomMessage();
+      countEl.textContent = `Love notes opened: ${clickCount}`;
+    }
+
+    buttonEl.addEventListener("click", function () {
+      clickCount += 1;
+      showNewMessage();
+    });
+
+    showNewMessage();
+  </script>
+</body>
+</html>
